@@ -24,7 +24,7 @@ use Cake\Core\Configure;
     <div class="card">
       <?= $this->Form->create($page); ?>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <?php
           if(Configure::read('Trois/Pages.translate'))
           {
@@ -35,11 +35,13 @@ use Cake\Core\Configure;
             echo $this->Form->input('meta', ['type' => 'textarea','class' => 'form-control no-trumbowyg']);
             echo $this->Form->input('header', ['class' => 'form-control']);
           }
-        ?>
-        </div>
-        <div class="col-md-6">
-          <?php
-          echo $this->Form->input('page_type', ['class' => 'form-control']);
+
+          if(count(Configure::read('Trois/Pages.pageTypes')) > 1)
+          {
+            echo $this->Form->input('page_type',['options' => Configure::read('Trois/Pages.pageTypes'), 'class' => 'form-control']);
+          }else{
+            echo $this->Form->input('page_type', ['type' => 'hidden', 'value' => 'default']);
+          }
           echo $this->Form->input('parent_id', ['options' => $parentPages, 'empty' => true, 'class' => 'form-control']);
           echo $this->Attachment->input('Attachments', // if Attachments => HABTM else if !Attachments => belongsTo
             ['label' => __('Images'),
