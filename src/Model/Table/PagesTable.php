@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Core\Configure;
 
 /**
  * Pages Model
@@ -42,7 +43,7 @@ class PagesTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Tree');
-$this->addBehavior('Search.Search');
+        $this->addBehavior('Search.Search');
         $this->searchManager()
           ->add('q', 'Search.Like', [
             'before' => true,
@@ -73,6 +74,13 @@ $this->addBehavior('Search.Search');
             'joinTable' => 'attachments_pages',
             'className' => 'Trois/Pages.Attachments'
         ]);
+
+        // custom
+        $this->addBehavior('Trois/Pages.Sluggable', ['field' => 'title','translate' => Configure::read('Trois/Pages.translate')]);
+        if(Configure::read('Trois/Pages.translate'))
+        {
+          $this->addBehavior('Translate', ['fields' => ['title','slug','meta','header']]);
+        }
     }
 
     /**
