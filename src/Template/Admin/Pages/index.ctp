@@ -28,11 +28,6 @@
         <?= $this->element('pagesList',['pages' => $pages]); ?>
       </div>
       <!-- END CONTEMT -->
-      <!-- START FOOTER -->
-      <div class="card-footer">
-        footer
-      </div>
-      <!-- END FOOTER -->
 
     </div><!-- end content-->
   </div><!-- end card-->

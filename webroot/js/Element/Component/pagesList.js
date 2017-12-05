@@ -1,6 +1,9 @@
 //trois-pages-list-item
 Vue.component('trois-pages-list',{
   template: '#trois-pages-list',
+  props: {
+    url:String
+  },
   data: function(){
     return {
       pages: {

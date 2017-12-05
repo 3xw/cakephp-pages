@@ -35,12 +35,20 @@ class PagesController extends AppController
       ])
       ->toArray()
     );
-    /*
-    $query = $this->Pages
-    ->find('search',['search' => $this->request->query])
-    ->contain(['ParentPages']);
-    $this->set('pages', $this->paginate($query));
-    */
+  }
+
+  public function orderChildren($id)
+  {
+    if ($this->request->is('post'))
+    {
+      $page = $this->Pages->find()->where(['id' => $id])->first();
+      $gap = (int) $this->request->data['to'] - (int) $this->request->data['from'];
+      if($gap > 0){
+        $this->Pages->oveDown($page, abs($gap));
+      }else{
+        $this->Pages->moveUp($page, abs($gap));
+      }
+    }
   }
 
   /**
