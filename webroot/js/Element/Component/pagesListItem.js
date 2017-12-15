@@ -16,6 +16,12 @@ Vue.component('trois-pages-list-item', {
     }
   },
   methods: {
+    deleteItem: function(){
+      if (confirm("Are you sure you want to delete '"+this.model.title+"' ?"))
+      {
+        document['form-'+this.model.id].submit();
+      }
+    },
     toggle: function () {
       if (this.isFolder) {
         this.open = !this.open
@@ -44,7 +50,7 @@ Vue.component('trois-pages-list-item', {
       this.model.children.splice((to < from)? to: to - 1, 0,  item[0]);
 
       // save
-      this.$http.post(this.url+'/'+item[0].id+'.json',
+      this.$http.post(this.url+'pages/'+item[0].id+'.json',
       {
         from:from,
         to:to

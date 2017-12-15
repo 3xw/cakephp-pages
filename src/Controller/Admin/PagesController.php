@@ -44,12 +44,36 @@ class PagesController extends AppController
       $page = $this->Pages->find()->where(['id' => $id])->first();
       $gap = (int) $this->request->data['to'] - (int) $this->request->data['from'];
       if($gap > 0){
-        $this->Pages->oveDown($page, abs($gap));
+        $this->Pages->moveDown($page, abs($gap));
       }else{
         $this->Pages->moveUp($page, abs($gap));
       }
     }
   }
+
+  public function manage($id = null)
+  {
+    $page = $this->Pages->get($id, [
+      'contain' => ['Attachments']
+    ]);
+
+    /*
+    if ($this->request->is(['patch', 'post', 'put'])) {
+      $page = $this->Pages->patchEntity($page, $this->request->getData());
+      if ($this->Pages->save($page)) {
+        $this->Flash->success(__('The page has been saved.'));
+
+        return $this->redirect(['action' => 'index']);
+      }
+      $this->Flash->error(__('The page could not be saved. Please, try again.'));
+    }
+    $parentPages = $this->Pages->ParentPages->find('list', ['limit' => 200]);
+    $attachments = $this->Pages->Attachments->find('list', ['limit' => 200]);
+    */
+    $this->set(compact('page'));
+    $this->set('_serialize', ['page']);
+  }
+
 
   /**
   * View method

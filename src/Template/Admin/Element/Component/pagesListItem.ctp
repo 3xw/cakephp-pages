@@ -6,9 +6,21 @@
       @click="toggle"
       @dblclick="changeType">
       {{model.title}}
-      <i class="material-icons">mode_edit</i>
-      <i class="material-icons">info_outline</i>
-      <i class="material-icons">delete_forever</i>
+
+      <!-- MANAGE PAGE CONTENT -->
+      <a v-if="model.id" :href="url+'pages/pages/manage/'+model.id">
+        <i class="material-icons">mode_edit</i>
+      </a>
+
+      <!-- EDIT PAGE -->
+      <a v-if="model.id" :href="url+'pages/pages/edit/'+model.id">
+        <i class="material-icons">info_outline</i>
+      </a>
+
+      <!-- DELETE -->
+      <form v-if="model.id" style="display:inline-block;" :id="'form-'+model.id" :action="url+'pages/pages/edit/'+model.id" method="post"></form>
+      <i v-if="model.id" class="material-icons" @click="deleteItem">delete_forever</i>
+
       <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>
     </div>
     <ul v-show="open" v-if="isFolder" v-sortable="{draggable:'.trois-pages-list-item', onEnd:onDragEnd}">

@@ -13,4 +13,4 @@ $this->Html->script([
 $this->append('template', $this->element('Trois/Pages.Component/pagesListItem'));
 $this->append('template', $this->element('Trois/Pages.Component/pagesList'));
 ?>
-<trois-pages-list :url="'<?= $this->Url->build(['action' => 'orderChildren']) ?>'"></trois-pages-list>
+<trois-pages-list :url="'<?= $this->Url->build('/') ?>'"></trois-pages-list>
