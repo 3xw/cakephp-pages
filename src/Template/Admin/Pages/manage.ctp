@@ -3,6 +3,7 @@
 $this->Html->css([
   'Attachment.attachment.css',
 ],['block' => 'css']);
+
 // js
 $this->Html->scriptBlock("window.troisPage = ".json_encode($page).";", ['block' => true]);
 $this->Html->script([

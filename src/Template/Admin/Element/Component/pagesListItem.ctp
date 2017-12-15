@@ -8,17 +8,17 @@
       {{model.title}}
 
       <!-- MANAGE PAGE CONTENT -->
-      <a v-if="model.id" :href="url+'pages/pages/manage/'+model.id">
+      <a v-if="model.id" :href="url+'admin/pages/pages/manage/'+model.id">
         <i class="material-icons">mode_edit</i>
       </a>
 
       <!-- EDIT PAGE -->
-      <a v-if="model.id" :href="url+'pages/pages/edit/'+model.id">
+      <a v-if="model.id" :href="url+'admin/pages/pages/edit/'+model.id">
         <i class="material-icons">info_outline</i>
       </a>
 
       <!-- DELETE -->
-      <form v-if="model.id" style="display:inline-block;" :id="'form-'+model.id" :action="url+'pages/pages/edit/'+model.id" method="post"></form>
+      <form v-if="model.id" style="display:inline-block;" :id="'form-'+model.id" :action="url+'admin/pages/pages/edit/'+model.id" method="post"></form>
       <i v-if="model.id" class="material-icons" @click="deleteItem">delete_forever</i>
 
       <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>

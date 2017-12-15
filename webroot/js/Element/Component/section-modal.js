@@ -2,12 +2,24 @@ Vue.component('trois-pages-section-modal', {
   template: '#trois-pages-section-modal',
   data: function(){
     return {
+      name: '',
       loading: true,
       show: false,
+      errors: [],
+      sectionTypes: [],
+      pagination: {
+        "page_count": 1,
+        "current_page": 1,
+        "has_next_page": false,
+        "has_prev_page": false,
+        "count": 0,
+        "limit": 100
+      }
     };
   },
   props: {
     url:String,
+    page: Object,
   },
   created: function(){
     window.aEventHub.$on('open-section-modal', this.open);
@@ -25,43 +37,44 @@ Vue.component('trois-pages-section-modal', {
     open: function(){
       this.loading = true;
       this.show = true;
+      this.getSectionTypes();
     },
-    getSections: function(){
-      /*
+    getSectionTypes: function(){
+      this.name = '';
       this.loading = true;
       var params = {page: this.pagination.current_page};
-
-      // add uuid for restrictions
-      params.uuid = this.settings.uuid;
-
-      if(this.search){
-        params.search = this.search;
-      }
-      if(this.tag){
-        params.tag = this.tag;
-      }
-      if(this.sort.term){
-        params.sort = this.sort.query.sort;
-        params.direction = this.sort.query.direction;
-      }
-
-      if(!this.tag && !this.search){
-        params.index = 'filter';
-      }
-
-      var options = {
+      this.$http.get(this.url+'admin/pages/section-types.json', {
         params: params,
-        headers:{
-          "Accept":"application/json",
-          "Content-Type":"application/json"
-        }
-      };
-      this.$http.get(this.url+'attachment/attachments.json', options)
-      .then(this.successCallback, this.errorCallback);
-      */
+        headers:{"Accept":"application/json","Content-Type":"application/json"}
+      })
+      .then(this.getSectionTypesSuccessCallback, this.errorCallback);
     },
-    successCallback: function(response){
+    addSection: function(id){
+      this.loading = true;
+      this.$http.post(this.url+'admin/pages/sections/add.json',{
+        "page_id":this.page.id,
+        "section_type_id": id
+      }, {
+        headers:{"Accept":"application/json","Content-Type":"application/json"}
+      })
+      .then(this.createSectionTypeSuccessCallback, this.errorCallback);
+    },
+    createSectionType: function(){
+      this.loading = true;
+      this.$http.post(this.url+'admin/pages/section-types/add.json',{name:this.name}, {
+        headers:{"Accept":"application/json","Content-Type":"application/json"}
+      })
+      .then(this.getSectionTypes, this.errorCallback);
+    },
+    createSectionTypeSuccessCallback: function(response){
       this.loading = false;
+      this.page.sections.push(response.data.data);
+      this.close();
+    },
+    getSectionTypesSuccessCallback: function(response){
+      this.loading = false;
+      this.sectionTypes = response.data.data;
+      this.pagination = response.data.pagination;
 
     },
     errorCallback: function(response){

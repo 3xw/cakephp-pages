@@ -54,7 +54,13 @@ class PagesController extends AppController
   public function manage($id = null)
   {
     $page = $this->Pages->get($id, [
-      'contain' => ['Attachments']
+      'contain' => [
+        'Attachments',
+        'Sections' => [
+          'SectionTypes',
+          'Articles' => ['ArticleTypes']
+        ]
+      ]
     ]);
 
     /*

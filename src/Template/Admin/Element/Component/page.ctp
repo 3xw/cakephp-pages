@@ -3,9 +3,10 @@
     <div class="container-fluid">
 
       <!-- section modal-->
-      <trois-pages-section-modal :url="url" ></trois-pages-section-modal>
+      <trois-pages-section-modal :url="url" :page="page"></trois-pages-section-modal>
 
-      <section class="row">
+      <section  v-for="(section, index) in page.sections" :id="'section-'+index" class="row">
+        <h3>{{section.section_type.name}}</h3>
         <!-- add article -->
         <article class="col-6">
           <i class="material-icons">add</i>
