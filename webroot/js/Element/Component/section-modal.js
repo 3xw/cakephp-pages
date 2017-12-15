@@ -26,7 +26,7 @@ Vue.component('trois-pages-section-modal', {
       this.loading = true;
       this.show = true;
     },
-    getFiles: function(){
+    getSections: function(){
       /*
       this.loading = true;
       var params = {page: this.pagination.current_page};
@@ -62,8 +62,7 @@ Vue.component('trois-pages-section-modal', {
     },
     successCallback: function(response){
       this.loading = false;
-      this.files = response.data.data;
-      this.pagination = response.data.pagination;
+
     },
     errorCallback: function(response){
       this.loading = false;
