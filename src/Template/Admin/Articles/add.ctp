@@ -1,3 +1,7 @@
+<?php
+use Cake\Core\Configure;
+$i18n = Configure::read('I18n.languages');
+?>
 <nav class="navbar navbar-expand-lg">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -10,7 +14,7 @@
     </ul>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item active">
-          <?= $this->Html->link('<i class="material-icons">list</i> '.__('List'),['action'=>'index'], ['class' => '','escape'=>false]) ?>
+        <?= $this->Html->link('<i class="material-icons">list</i> '.__('List'),['action'=>'index'], ['class' => '','escape'=>false]) ?>
       </li>
     </ul>
   </div>
@@ -20,27 +24,47 @@
   <div class="col-11 mx-auto">
     <div class="card">
       <?= $this->Form->create($article); ?>
-      <?php
-                  echo $this->Form->input('title', ['class' => 'form-control']);
-                        echo $this->Form->input('slug', ['class' => 'form-control']);
-                        echo $this->Form->input('meta', ['class' => 'form-control']);
-                        echo $this->Form->input('header', ['class' => 'form-control']);
-                        echo $this->Form->input('body', ['class' => 'form-control']);
-                        echo $this->Form->input('classes', ['class' => 'form-control']);
-                        echo $this->Form->input('order', ['class' => 'form-control']);
-                        echo $this->Form->input('section_id', ['options' => $sections, 'class' => 'form-control']);
-                        echo $this->Form->input('article_type_id', ['options' => $articleTypes, 'class' => 'form-control']);
-                                  echo $this->Attachment->input('Attachments', // if Attachments => HABTM else if !Attachments => belongsTo
-            ['label' => __('Images'),
-            'types' =>['image/jpeg','image/png'],
-            'atags' => [],
+      <div class="row">
+
+        <!-- No i18n -->
+        <?php if(empty($i18n)): ?>
+          <div class="col-md-6">
+            <?= $this->Form->input('title', ['class' => 'form-control']) ?>
+            <?= $this->Form->input('meta', ['class' => 'form-control']) ?>
+          </div>
+          <div class="col-md-6">
+            <?= $this->Form->input('header', ['class' => 'form-control']) ?>
+          </div>
+          <div class="col-md-12">
+            <?= $this->Form->input('body', ['class' => 'form-control']) ?>
+          </div>
+        <?php else: ?>
+          <div class="col-12">
+            <?= $this->element('locale',['fields' => ['title','meta','header','body']]) ?>
+          </div>
+        <?php endif;  ?>
+
+        <!-- i18n -->
+        <div class="col-md-6">
+          <?= $this->Form->input('classes', ['class' => 'form-control']); ?>
+          <?= $this->Form->input('article_type_id', ['options' => $articleTypes, 'class' => 'form-control']) ?>
+          <?= $this->Form->input('order', ['value' => $section->count,'type' => 'hidden']) ?>
+          <?= $this->Form->input('section_id', ['value' => $sectionId,'type' => 'hidden']) ?>
+        </div>
+        <div class="col-md-6">
+          <?= $this->Attachment->input('Attachments', // if Attachments => HABTM else if !Attachments => belongsTo
+          ['label' => __('Images'),
+          'types' =>['image/jpeg','image/png'],
+          'atags' => [],
             'restrictions' => [
               Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
               Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
             ],
             'attachments' => [] // array of exisiting Attachment entities ( HABTM ) or entity ( belongsTo )
           ]);
-              ?>
+          ?>
+        </div>
+      </div>
     <div class="text-right">
       <div class="btn-group">
         <?= $this->Html->link(__('Cancel'), $referer, ['class' => 'btn btn-danger btn-fill']) ?>

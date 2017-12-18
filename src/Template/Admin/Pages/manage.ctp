@@ -2,6 +2,7 @@
 // css
 $this->Html->css([
   'Attachment.attachment.css',
+  'Trois/Pages.admin/admin.min.css',
 ],['block' => 'css']);
 
 // js

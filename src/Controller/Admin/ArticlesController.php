@@ -55,22 +55,27 @@ class ArticlesController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add($sectionId)
     {
         $article = $this->Articles->newEntity();
+        $query = $this->Articles->Sections->find();
+        $section = $query->select(['page_id','count' => $query->func()->count('Articles.id')])
+        ->matching('Articles')
+        ->where(['Sections.id' => $sectionId])
+        ->first();
+        
         if ($this->request->is('post')) {
             $article = $this->Articles->patchEntity($article, $this->request->getData());
             if ($this->Articles->save($article)) {
                 $this->Flash->success(__('The article has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'Pages','action' => 'manage', $section->page_id]);
             }
             $this->Flash->error(__('The article could not be saved. Please, try again.'));
         }
-        $sections = $this->Articles->Sections->find('list', ['limit' => 200]);
         $articleTypes = $this->Articles->ArticleTypes->find('list', ['limit' => 200]);
-        $attachments = $this->Articles->Attachments->find('list', ['limit' => 200]);
-        $this->set(compact('article', 'sections', 'articleTypes', 'attachments'));
+
+        $this->set(compact('sectionId','section','article', 'articleTypes'));
         $this->set('_serialize', ['article']);
     }
 
