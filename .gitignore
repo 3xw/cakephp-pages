@@ -2,6 +2,11 @@
 #############
 /composer.lock
 
+# GRUNT NPM #
+#############
+/node_modules/*
+/.sass-cache/*
+
 # OS generated files #
 ######################
 .DS_Store
