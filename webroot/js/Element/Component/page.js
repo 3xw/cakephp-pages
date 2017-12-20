@@ -9,6 +9,7 @@ Vue.component('trois-pages-page', {
     }
   },
   created: function(){
+    if(window.aEventHub['page'] == undefined) window.aEventHub['page'] = new Vue();
     this.page = window.troisPage;
   },
   computed: {
@@ -16,7 +17,7 @@ Vue.component('trois-pages-page', {
   },
   methods: {
     openSectionModal: function(){
-      window.aEventHub.$emit('open-section-modal')
+      window.aEventHub['page'].$emit('open-section-modal')
     }
   }
 })

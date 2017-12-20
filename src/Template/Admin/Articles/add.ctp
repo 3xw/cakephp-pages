@@ -14,11 +14,13 @@ $i18n = Configure::read('I18n.languages');
     </ul>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item active">
-        <?= $this->Html->link('<i class="material-icons">list</i> '.__('List'),['action'=>'index'], ['class' => '','escape'=>false]) ?>
+        <?= $this->Html->link('<i class="material-icons">description</i> '.__('Page'),['controller' => 'Pages','action'=>'manage', $section->page_id], ['class' => '','escape'=>false]) ?>
       </li>
     </ul>
   </div>
 </nav>
+
+
 <div class="utils--spacer-default"></div>
 <div class="row no-gutters">
   <div class="col-11 mx-auto">
@@ -36,11 +38,34 @@ $i18n = Configure::read('I18n.languages');
             <?= $this->Form->input('header', ['class' => 'form-control']) ?>
           </div>
           <div class="col-md-12">
-            <?= $this->Form->input('body', ['class' => 'form-control']) ?>
+            <?= $this->Attachment->trumbowyg('body',[
+               'types' =>['image/jpeg','image/png','image/gif'],
+               'atags' => [],
+               'restrictions' => [
+                  Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
+                  Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
+               ],
+               'content' => $post->content,
+            ]); ?>
           </div>
         <?php else: ?>
           <div class="col-12">
-            <?= $this->element('locale',['fields' => ['title','meta','header','body']]) ?>
+            <?= $this->element('locale',['fields' => [
+              'title',
+              'meta',
+              'header',
+              'body' => [
+                'Attachment.trumbowyg' => [
+                  'types' =>['image/jpeg','image/png'],
+                  'atags' => [],
+                    'restrictions' => [
+                      Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
+                      Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
+                  ],
+                  'attachments' => [] // array of exisiting Attachment entities ( HABTM ) or entity ( belongsTo )
+                ]
+              ]
+            ]]) ?>
           </div>
         <?php endif;  ?>
 

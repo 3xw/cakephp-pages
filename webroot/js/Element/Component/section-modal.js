@@ -22,7 +22,8 @@ Vue.component('trois-pages-section-modal', {
     page: Object,
   },
   created: function(){
-    window.aEventHub.$on('open-section-modal', this.open);
+    if(window.aEventHub['page'] == undefined) window.aEventHub['page'] = new Vue();
+    window.aEventHub['page'].$on('open-section-modal', this.open);
   },
   mounted: function(){
     //get section types here or not
@@ -32,7 +33,7 @@ Vue.component('trois-pages-section-modal', {
     close: function(){
       this.show = false;
       this.loading = false;
-      window.aEventHub.$emit('page-section-modal-closed');
+      window.aEventHub['page'].$emit('page-section-modal-closed');
     },
     open: function(){
       this.loading = true;

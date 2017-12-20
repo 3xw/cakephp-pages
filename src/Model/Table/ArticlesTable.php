@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Core\Configure;
 
 /**
  * Articles Model
@@ -24,6 +25,10 @@ use Cake\Validation\Validator;
 class ArticlesTable extends Table
 {
 
+  use \Trois\Pages\Model\Traits\CustomTranslateTrait;
+
+  //use \Cake\ORM\Behavior\Translate\TranslateTrait; // pire jaloux
+
     /**
      * Initialize method
      *
@@ -37,17 +42,17 @@ class ArticlesTable extends Table
         $this->setTable('articles');
         $this->setDisplayField('title');
         $this->setPrimaryKey('id');
-$this->addBehavior('Search.Search');
+        $this->addBehavior('Search.Search');
         $this->searchManager()
-          ->add('q', 'Search.Like', [
-            'before' => true,
-            'after' => true,
-            'mode' => 'or',
-            'comparison' => 'LIKE',
-            'wildcardAny' => '*',
-            'wildcardOne' => '?',
-            'field' => ['title']
-          ]);
+        ->add('q', 'Search.Like', [
+          'before' => true,
+          'after' => true,
+          'mode' => 'or',
+          'comparison' => 'LIKE',
+          'wildcardAny' => '*',
+          'wildcardOne' => '?',
+          'field' => ['title']
+        ]);
 
 
         $this->belongsTo('Sections', [
@@ -66,6 +71,16 @@ $this->addBehavior('Search.Search');
             'joinTable' => 'attachments_articles',
             'className' => 'Trois/Pages.Attachments'
         ]);
+
+        // custom
+        $i18n = Configure::read('I18n.languages');
+        $translate = (empty($i18n))? false: true;
+        $this->addBehavior('Trois/Pages.Sluggable', ['field' => 'title','translate' => $translate]);
+        if($translate)
+        {
+          debug('translate de hute');
+          $this->addBehavior('Translate', ['fields' => ['title','slug','meta','header','body']]);
+        }
     }
 
     /**

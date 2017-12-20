@@ -27,6 +27,7 @@ use Cake\Core\Configure;
  */
 class PagesTable extends Table
 {
+  use \Trois\Pages\Model\Traits\CustomTranslateTrait;
 
     /**
      * Initialize method
@@ -76,8 +77,10 @@ class PagesTable extends Table
         ]);
 
         // custom
-        $this->addBehavior('Trois/Pages.Sluggable', ['field' => 'title','translate' => Configure::read('Trois/Pages.translate')]);
-        if(Configure::read('Trois/Pages.translate'))
+        $i18n = Configure::read('I18n.languages');
+        $translate = (empty($i18n))? false: true;
+        $this->addBehavior('Trois/Pages.Sluggable', ['field' => 'title','translate' => $translate]);
+        if($translate)
         {
           $this->addBehavior('Translate', ['fields' => ['title','slug','meta','header']]);
         }
