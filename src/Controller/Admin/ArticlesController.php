@@ -20,27 +20,6 @@ class ArticlesController extends AppController
     ]);
   }
 
-  /*
-  public function index()
-  {
-    $query = $this->Articles
-    ->find('search',['search' => $this->request->query])
-    ->contain(['Sections', 'ArticleTypes']);
-    $this->set('articles', $this->paginate($query));
-  }
-  */
-  /*
-  public function view($id = null)
-  {
-    $article = $this->Articles->get($id, [
-      'contain' => ['Sections', 'ArticleTypes', 'Attachments']
-    ]);
-
-    $this->set('article', $article);
-    $this->set('_serialize', ['article']);
-  }
-  */
-
   public function add($sectionId)
   {
     $article = $this->Articles->newEntity();
@@ -52,10 +31,7 @@ class ArticlesController extends AppController
 
     if ($this->request->is('post')) {
 
-      debug($this->request->getData());
       $article = $this->Articles->patchEntity($article, $this->request->getData());
-      debug($article);
-      /*
       if ($this->Articles->save($article)) {
         $this->Flash->success(__('The article has been saved.'));
 
@@ -63,7 +39,6 @@ class ArticlesController extends AppController
       }
       $this->Flash->error(__('The article could not be saved. Please, try again.'));
       debug($article->errors());
-      */
     }
     $articleTypes = $this->Articles->ArticleTypes->find('list', ['limit' => 200]);
 
@@ -71,13 +46,6 @@ class ArticlesController extends AppController
     $this->set('_serialize', ['article']);
   }
 
-  /**
-  * Edit method
-  *
-  * @param string|null $id Article id.
-  * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-  * @throws \Cake\Network\Exception\NotFoundException When record not found.
-  */
   public function edit($id = null)
   {
     $article = $this->Articles->get($id, [
@@ -99,13 +67,6 @@ class ArticlesController extends AppController
     $this->set('_serialize', ['article']);
   }
 
-  /**
-  * Delete method
-  *
-  * @param string|null $id Article id.
-  * @return \Cake\Http\Response|null Redirects to index.
-  * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-  */
   public function delete($id = null)
   {
     $this->request->allowMethod(['post', 'delete']);
@@ -118,4 +79,26 @@ class ArticlesController extends AppController
 
     return $this->redirect(['action' => 'index']);
   }
+
+
+  /*
+  public function index()
+  {
+    $query = $this->Articles
+    ->find('search',['search' => $this->request->query])
+    ->contain(['Sections', 'ArticleTypes']);
+    $this->set('articles', $this->paginate($query));
+  }
+  */
+  /*
+  public function view($id = null)
+  {
+    $article = $this->Articles->get($id, [
+      'contain' => ['Sections', 'ArticleTypes', 'Attachments']
+    ]);
+
+    $this->set('article', $article);
+    $this->set('_serialize', ['article']);
+  }
+  */
 }

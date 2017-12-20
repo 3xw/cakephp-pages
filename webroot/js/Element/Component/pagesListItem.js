@@ -17,8 +17,7 @@ Vue.component('trois-pages-list-item', {
   },
   methods: {
     deleteItem: function(){
-      if (confirm("Are you sure you want to delete '"+this.model.title+"' ?"))
-      {
+      if (confirm("Are you sure you want to delete '"+this.model.title+"' ?")){
         document['form-'+this.model.id].submit();
       }
     },

@@ -78,7 +78,6 @@ class ArticlesTable extends Table
         $this->addBehavior('Trois/Pages.Sluggable', ['field' => 'title','translate' => $translate]);
         if($translate)
         {
-          debug('translate de hute');
           $this->addBehavior('Translate', ['fields' => ['title','slug','meta','header','body']]);
         }
     }

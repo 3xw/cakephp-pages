@@ -5,28 +5,48 @@
       <!-- section modal-->
       <trois-pages-section-modal :url="url" :page="page"></trois-pages-section-modal>
 
-      <section  v-for="(section, index) in page.sections" :id="'section-'+index" class="row">
-        <h3>{{section.section_type.name}}</h3>
-        <!-- add article -->
-        <article class="col-6">
-          <a :href="url+'admin/pages/articles/add/'+section.id" type="button" name="button" class="btn btn-info btn-sm btn-fill">
-            <i class="material-icons">add</i> <?= __d('Trois/Pages','Add a new artcile') ?>
-          </a>
-          <button @click="openSectionModal()" type="button" name="button" class="btn btn-danger btn-sm btn-fill">
-            <i class="material-icons">delete</i> <?= __d('Trois/Pages','Delete section and articles') ?>
-          </button>
-        </article>
-      </section>
+      <section  v-for="(section, index) in page.sections" :id="'section-'+index" class="card mb-4">
+        <div class="card-body">
+          <h3 class="card-title">{{section.section_type.name}}</h3>
+          <h6 class="card-subtitle mb-2 text-muted">section</h6>
 
-      <!-- add section -->
-      <section class="row">
-        <div class="btn-group">
-          <button @click="openSectionModal()" type="button" name="button" class="btn btn-info btn-sm btn-fill">
-            <i class="material-icons">add</i> <?= __d('Trois/Pages','Add a new section') ?>
+          <!-- articles list -->
+          <div class="row" v-sortable="{draggable:'.section-article', onEnd:onArticleDragEnd}">
+            <article v-for="(article, index) in section.articles" :id="'article'+index" class="section-article col-6 mb-3">
+              <div class="card">
+                <div class="card-body">
+
+                  <h4 class="card-title">{{article.title}}</h4>
+                  <p class="card-text">{{article.header}}</p>
+
+                  <!-- actions btns -->
+                  <button @click="goToLocation(url+'admin/pages/articles/edit/'+article.id)" type="button" name="button" class="btn btn-info btn-sm btn-fill">
+                    <i class="material-icons">edit</i> <?= __d('Trois/Pages','Edit artcile') ?>
+                  </button>
+                  <button @click="deleteArticle(section.id,article.id)" type="button" name="button" class="btn btn-danger btn-sm btn-fill">
+                    <i class="material-icons">delete</i> <?= __d('Trois/Pages','Delete article') ?>
+                  </button>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- add article -->
+          <button @click="goToLocation(url+'admin/pages/articles/add/'+section.id)" type="button" name="button" class="btn btn-primary btn-sm btn-fill">
+            <i class="material-icons">add</i> <?= __d('Trois/Pages','Add a new artcile') ?>
+          </button>
+          <button @click="deleteSection(section.id)" type="button" name="button" class="btn btn-danger btn-sm btn-fill">
+            <i class="material-icons">delete</i> <?= __d('Trois/Pages','Delete section and articles') ?>
           </button>
 
         </div>
+
       </section>
+
+      <!-- add section -->
+      <button @click="openSectionModal()" type="button" name="button" class="btn btn-primary btn-sm btn-fill">
+        <i class="material-icons">add</i> <?= __d('Trois/Pages','Add a new section') ?>
+      </button>
 
     </div> <!-- end container-fluid -->
   </div> <!-- end content -->
