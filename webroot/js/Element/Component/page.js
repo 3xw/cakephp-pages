@@ -7,7 +7,7 @@ Vue.component('trois-pages-page', {
     return {
       page: {},
       section: {},
-      article: {}
+      article: {},
     }
   },
   created: function(){
@@ -18,8 +18,24 @@ Vue.component('trois-pages-page', {
 
   },
   methods: {
-    onArticleDragEnd: function(){
-
+    onSectionDragEnd: function(evt){
+      var self = this;
+      $('.trois-pages section')
+      .each(function(index, elem){
+        var sectionIndex = $('#'+evt.item.id).data('section-index');
+        self.page.sections[sectionIndex].order = index;
+      });
+      this.saveNewOrder();
+    },
+    onArticleDragEnd: function(evt){
+      var sectionIndex = $('#'+evt.item.id).data('section-index');
+      var self = this;
+      $('#section-'+sectionIndex+' .trois-pages__section__article')
+      .each(function(index, elem){
+        var articleIndex = $(elem).data('index');
+        self.page.sections[sectionIndex].articles[articleIndex].order = index;
+      });
+      this.saveNewOrder();
     },
     goToLocation: function(location){
       window.location = location;
@@ -31,6 +47,7 @@ Vue.component('trois-pages-page', {
       this.section = null;
       for(var i in this.page.sections){
         if(this.page.sections[i].id == id){
+          this.sectionId = i;
           this.section = this.page.sections[i];
           return this.section;
         }
@@ -41,6 +58,7 @@ Vue.component('trois-pages-page', {
       this.article = null;
       for(var i in this.section.articles){
         if(this.section.articles[i].id == artcileId){
+          this.articleId = i;
           this.article = this.section.articles[i];
           return this.article;
         }
@@ -57,6 +75,9 @@ Vue.component('trois-pages-page', {
       if(confirm('Are you sur you want to delete artcile: "'+this.article.title+'" ?')){
 
       }
+    },
+    saveNewOrder: function(){
+      alert('faire cette nouvelle fct ajax et tout... hey ouais!');
     }
   }
 })

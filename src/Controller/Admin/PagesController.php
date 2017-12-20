@@ -58,7 +58,8 @@ class PagesController extends AppController
         'Attachments',
         'Sections' => [
           'SectionTypes',
-          'Articles' => ['ArticleTypes']
+          'Articles' => ['ArticleTypes', 'sort' => 'Articles.order'],
+          'sort' => 'Sections.order'
         ]
       ]
     ]);

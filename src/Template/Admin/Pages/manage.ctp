@@ -8,7 +8,7 @@ $this->Html->css([
 // js
 $this->Html->scriptBlock("window.troisPage = ".json_encode($page).";", ['block' => true]);
 $this->Html->script([
-  'Attachment.vendor/rubaxa/Sortable/Sortable.js',
+  'Trois/Pages.vendor/rubaxa/Sortable/Sortable.js',
   'Attachment.Element/Component/utils.js',
   'Trois/Pages.Element/Component/page.js',
   'Trois/Pages.Element/Component/section-modal.js'

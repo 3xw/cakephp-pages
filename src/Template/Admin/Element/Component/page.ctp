@@ -1,18 +1,18 @@
 <script type="text/x-template" id="trois-pages-page">
   <div class="content">
-    <div class="container-fluid trois-pages">
+    <div class="container-fluid trois-pages" v-sortable="{draggable:'.trois-pages__section', onEnd:onSectionDragEnd}">
 
       <!-- section modal-->
       <trois-pages-section-modal :url="url" :page="page"></trois-pages-section-modal>
 
-      <section  v-for="(section, index) in page.sections" :id="'section-'+index" class="card mb-4">
+      <section  v-for="(section, sectionIndex) in page.sections" :id="'section-'+sectionIndex" :data-section-index="sectionIndex" :data-id="section.id" class="trois-pages__section card mb-4">
         <div class="card-body">
           <h3 class="card-title">{{section.section_type.name}}</h3>
           <h6 class="card-subtitle mb-2 text-muted">section</h6>
 
           <!-- articles list -->
-          <div class="row" v-sortable="{draggable:'.section-article', onEnd:onArticleDragEnd}">
-            <article v-for="(article, index) in section.articles" :id="'article'+index" class="section-article col-6 mb-3">
+          <div class="row" v-sortable="{draggable:'.trois-pages__section__article', onEnd:onArticleDragEnd}">
+            <article v-for="(article, index) in section.articles" :id="'article-'+index" :data-index="index" :data-section-index="sectionIndex" class="trois-pages__section__article col-6 mb-3">
               <div class="card">
                 <div class="card-body">
 

@@ -2,7 +2,7 @@
 // js
 $this->Html->scriptBlock("window.troisPagesList = ".json_encode($pages).";", ['block' => true]);
 $this->Html->script([
-  'Attachment.vendor/rubaxa/Sortable/Sortable.js',
+  'Trois/Pages.vendor/rubaxa/Sortable/Sortable.js',
   'Attachment.Element/Component/utils.js',
   'Trois/Pages.Element/Component/pagesListItem.js',
   'Trois/Pages.Element/Component/pagesList.js'
