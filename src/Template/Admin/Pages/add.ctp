@@ -1,5 +1,6 @@
 <?php
 use Cake\Core\Configure;
+$i18n = Configure::read('I18n.languages');
 ?>
 <nav class="navbar navbar-expand-lg">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,7 +27,7 @@ use Cake\Core\Configure;
       <div class="row">
         <div class="col-md-12">
           <?php
-          if(Configure::read('Trois/Pages.translate'))
+          if($i18n)
           {
             echo $this->element('locale',['fields' => ['title','slug','meta','header']]);
           }else{
