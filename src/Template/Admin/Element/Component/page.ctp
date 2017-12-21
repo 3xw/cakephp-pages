@@ -23,6 +23,8 @@
                   <button @click="goToLocation(url+'admin/pages/articles/edit/'+article.id)" type="button" name="button" class="btn btn-info btn-sm btn-fill">
                     <i class="material-icons">edit</i> <?= __d('Trois/Pages','Edit artcile') ?>
                   </button>
+                  <!-- delete section -->
+                  <form style="display:inline-block;" :id="'form-article-'+article.id" :action="url+'admin/pages/articles/delete/'+article.id" method="post"></form>
                   <button @click="deleteArticle(section.id,article.id)" type="button" name="button" class="btn btn-danger btn-sm btn-fill">
                     <i class="material-icons">delete</i> <?= __d('Trois/Pages','Delete article') ?>
                   </button>
@@ -35,19 +37,22 @@
           <button @click="goToLocation(url+'admin/pages/articles/add/'+section.id)" type="button" name="button" class="btn btn-primary btn-sm btn-fill">
             <i class="material-icons">add</i> <?= __d('Trois/Pages','Add a new artcile') ?>
           </button>
+          <!-- delete section -->
+          <form style="display:inline-block;" :id="'form-section-'+section.id" :action="url+'admin/pages/sections/delete/'+section.id" method="post"></form>
           <button @click="deleteSection(section.id)" type="button" name="button" class="btn btn-danger btn-sm btn-fill">
             <i class="material-icons">delete</i> <?= __d('Trois/Pages','Delete section and articles') ?>
           </button>
 
         </div>
-
       </section>
+    </div> <!-- end container-fluid -->
 
+    <div class="container-fluid">
       <!-- add section -->
       <button @click="openSectionModal()" type="button" name="button" class="btn btn-primary btn-sm btn-fill">
         <i class="material-icons">add</i> <?= __d('Trois/Pages','Add a new section') ?>
       </button>
+    </div><!-- end container-fluid -->
 
-    </div> <!-- end container-fluid -->
   </div> <!-- end content -->
 </script>

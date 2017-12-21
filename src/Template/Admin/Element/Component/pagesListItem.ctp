@@ -18,7 +18,7 @@
       </a>
 
       <!-- DELETE -->
-      <form v-if="model.id" style="display:inline-block;" :id="'form-'+model.id" :action="url+'admin/pages/pages/edit/'+model.id" method="post"></form>
+      <form v-if="model.id" style="display:inline-block;" :id="'form-'+model.id" :action="url+'admin/pages/pages/delete/'+model.id" method="post"></form>
       <i v-if="model.id" class="material-icons" @click="deleteItem">delete_forever</i>
 
       <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>

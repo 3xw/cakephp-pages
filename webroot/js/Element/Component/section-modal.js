@@ -68,8 +68,18 @@ Vue.component('trois-pages-section-modal', {
       .then(this.getSectionTypes, this.errorCallback);
     },
     createSectionTypeSuccessCallback: function(response){
+      this.loading = true;
+      this.$http.get(this.url+'admin/pages/sections/view/'+response.data.data.id+'.json',{
+        headers:{"Accept":"application/json","Content-Type":"application/json"}
+      })
+      .then(this.getSectionSuccessCallback, this.errorCallback);
+    },
+    getSectionSuccessCallback: function(response){
       this.loading = false;
-      this.page.sections.push(response.data.data);
+      var section = response.data.data;
+      section.section_type = section.SectionTypes;
+      delete(section.SectionTypes);
+      this.page.sections.push(section);
       this.close();
     },
     getSectionTypesSuccessCallback: function(response){

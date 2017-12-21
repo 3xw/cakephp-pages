@@ -32,25 +32,63 @@ class SectionsController extends AppController
         'edit' => [
           'className' => 'Crud.Edit',
         ],
-        'delete' => [
-          'className' => 'Crud.Delete',
-        ],
       ],
       'listeners' => [
         'Crud.Api',
         'Crud.ApiPagination',
         'Crud.ApiQueryLog',
-        'Crud.Search'
+        'Crud.Search',
       ]
     ]);
 
   }
 
+  public function view() {
+    $this->Crud->on('beforeFind', function (\Cake\Event\Event $event)
+    {
+      $event->getSubject()->query->contain(['sectionTypes']);
+    });
+
+    return $this->Crud->execute();
+  }
+
   public function add() {
-      $this->Crud->on('beforeFind', function (\Cake\Event\Event $event) {
-          $event->subject->query->contain(['SectionTypes']);
-      });
-      return $this->Crud->execute();
+    $this->Crud->on('beforeSave', function (\Cake\Event\Event $event)
+    {
+      if ($event->getSubject()->entity->isNew())
+      {
+        if (!$event->getSubject()->entity->has('order') )
+        {
+          $query = $this->Sections->find();
+          $section = $query->select(['count' => $query->func()->count('id')])
+          ->where(['Sections.page_id' => $event->getSubject()->entity->get('page_id')])
+          ->first();
+          $event->getSubject()->entity->set('order',$section->count);
+        }
+      }
+    });
+
+    return $this->Crud->execute();
+  }
+
+  public function delete($id = null)
+  {
+    $this->request->allowMethod(['post', 'delete']);
+    $section = $this->Sections->get($id);
+    if ($this->Sections->delete($section))
+    {
+      $sections = $this->Sections->find()->where(['page_id' => $section->page_id])->order(['order' => 'ASC'])->toArray();
+      if(!empty($sections))
+      {
+        foreach($sections as $order => $whatever) $sections[$order]->set('order', $order);
+        $this->Sections->saveMany($sections);
+      }
+      $this->Flash->success(__('The section has been deleted.'));
+    } else
+    {
+      $this->Flash->error(__('The section could not be deleted. Please, try again.'));
+    }
+    return $this->redirect(['controller' => 'Pages','action' => 'manage', $section->page_id]);
   }
 
 }

@@ -32,13 +32,13 @@ class ArticlesController extends AppController
     if ($this->request->is('post')) {
 
       $article = $this->Articles->patchEntity($article, $this->request->getData());
+      $article->set('order', $section->count);
       if ($this->Articles->save($article)) {
         $this->Flash->success(__('The article has been saved.'));
 
         return $this->redirect(['controller' => 'Pages','action' => 'manage', $section->page_id]);
       }
       $this->Flash->error(__('The article could not be saved. Please, try again.'));
-      debug($article->errors());
     }
     $articleTypes = $this->Articles->ArticleTypes->find('list', ['limit' => 200]);
 
@@ -48,15 +48,16 @@ class ArticlesController extends AppController
 
   public function edit($id = null)
   {
-    $article = $this->Articles->get($id, [
-      'contain' => ['Attachments']
-    ]);
+    $article = $this->Articles->find()
+    ->contain(['Sections','Attachments'])
+    ->where(['Articles.id' => $id])
+    ->first();
+
     if ($this->request->is(['patch', 'post', 'put'])) {
       $article = $this->Articles->patchEntity($article, $this->request->getData());
       if ($this->Articles->save($article)) {
         $this->Flash->success(__('The article has been saved.'));
-
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['controller' => 'Pages','action' => 'manage', $article->section->page_id]);
       }
       $this->Flash->error(__('The article could not be saved. Please, try again.'));
     }
@@ -70,35 +71,24 @@ class ArticlesController extends AppController
   public function delete($id = null)
   {
     $this->request->allowMethod(['post', 'delete']);
-    $article = $this->Articles->get($id);
-    if ($this->Articles->delete($article)) {
+    $article = $this->Articles->find()
+    ->contain(['Sections'])
+    ->where(['Articles.id' => $id])
+    ->first();
+
+    if ($this->Articles->delete($article))
+    {
+      $articles = $this->Articles->find()->where(['section_id' => $article->section_id])->order(['order' => 'ASC'])->toArray();
+      if(!empty($articles))
+      {
+        foreach($articles as $order => $whatever) $articles[$order]->set('order', $order);
+        $this->Articles->saveMany($articles);
+      }
       $this->Flash->success(__('The article has been deleted.'));
-    } else {
+    } else
+    {
       $this->Flash->error(__('The article could not be deleted. Please, try again.'));
     }
-
-    return $this->redirect(['action' => 'index']);
+    return $this->redirect(['controller' => 'Pages','action' => 'manage', $article->section->page_id]);
   }
-
-
-  /*
-  public function index()
-  {
-    $query = $this->Articles
-    ->find('search',['search' => $this->request->query])
-    ->contain(['Sections', 'ArticleTypes']);
-    $this->set('articles', $this->paginate($query));
-  }
-  */
-  /*
-  public function view($id = null)
-  {
-    $article = $this->Articles->get($id, [
-      'contain' => ['Sections', 'ArticleTypes', 'Attachments']
-    ]);
-
-    $this->set('article', $article);
-    $this->set('_serialize', ['article']);
-  }
-  */
 }

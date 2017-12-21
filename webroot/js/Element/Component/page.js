@@ -22,7 +22,7 @@ Vue.component('trois-pages-page', {
       var self = this;
       $('.trois-pages section')
       .each(function(index, elem){
-        var sectionIndex = $('#'+evt.item.id).data('section-index');
+        var sectionIndex = $(elem).data('section-index');
         self.page.sections[sectionIndex].order = index;
       });
       this.saveNewOrder();
@@ -66,18 +66,30 @@ Vue.component('trois-pages-page', {
     },
     deleteSection: function(id){
       this.getSection(id);
-      if(confirm('Are you sur you want to delete section: "'+this.section.section_type.name+'" ?')){
-
+      if(confirm('Are you sure you want to delete section: "'+this.section.section_type.name+'" ?'))
+      {
+        $('#form-section-'+id).submit();
       }
     },
     deleteArticle: function(sectionId, artcileId){
       this.getArtcile(sectionId, artcileId);
-      if(confirm('Are you sur you want to delete artcile: "'+this.article.title+'" ?')){
-
+      if(confirm('Are you sure you want to delete artcile: "'+this.article.title+'" ?'))
+      {
+        $('#form-article-'+artcileId).submit();
       }
     },
     saveNewOrder: function(){
-      alert('faire cette nouvelle fct ajax et tout... hey ouais!');
-    }
+      this.$http.post(this.url+'admin/pages/pages/order-page-content.json',{sections:this.page.sections}, {
+        headers:{"Accept":"application/json","Content-Type":"application/json"}
+      })
+      .then(this.saveNewOrderSuccess, this.errorCallback);
+    },
+    saveNewOrderSuccess: function(response){
+      console.log(response);
+    },
+    errorCallback: function(response){
+      console.log(response);
+      alert('An error occured!');
+    },
   }
 })

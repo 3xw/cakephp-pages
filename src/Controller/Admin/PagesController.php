@@ -37,6 +37,38 @@ class PagesController extends AppController
     );
   }
 
+  public function orderPageContent()
+  {
+    $data = [
+      'sections'=> [],
+      'articles' => []
+    ];
+
+    if ($this->request->is('post'))
+    {
+      foreach($this->request->getData()['sections'] as $row)
+      {
+        $section = $this->Pages->Sections->get($row['id']);
+        $section = $this->Pages->Sections->patchEntity($section, [
+            'order' => $row['order']
+        ]);
+        $data['sections'][] = $section;
+        foreach($row['articles'] as $art)
+        {
+          $article = $this->Pages->Sections->Articles->get($art['id']);
+          $article = $this->Pages->Sections->Articles->patchEntity($article, [
+              'order' => $art['order']
+          ]);
+          $data['articles'][] = $article;
+        }
+      }
+      $data['sections'] = $this->Pages->Sections->saveMany($data['sections']);
+      $data['articles'] = $this->Pages->Sections->Articles->saveMany($data['articles']);
+    }
+    $this->set(compact('data'));
+    $this->set('_serialize', ['data']);
+  }
+
   public function orderChildren($id)
   {
     if ($this->request->is('post'))
