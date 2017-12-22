@@ -17,7 +17,7 @@
                 <div class="card-body">
 
                   <h4 class="card-title">{{article.title}}</h4>
-                  <p class="card-text">{{article.header}}</p>
+                  <h6 class="card-subtitle mb-2 text-muted">{{article.article_type.name}}</h6>
 
                   <!-- actions btns -->
                   <button @click="goToLocation(url+'admin/pages/articles/edit/'+article.id)" type="button" name="button" class="btn btn-info btn-sm btn-fill">
