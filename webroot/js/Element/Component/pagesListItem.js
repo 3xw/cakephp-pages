@@ -16,9 +16,7 @@ Vue.component('trois-pages-list-item', {
     }
   },
   mounted: function () {
-    console.log(this);
-    console.log(this.model.parent_id);
-    console.log(this.open);
+
   },
   methods: {
     deleteItem: function(){
