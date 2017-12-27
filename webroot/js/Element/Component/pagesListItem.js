@@ -6,7 +6,7 @@ Vue.component('trois-pages-list-item', {
   },
   data: function () {
     return {
-      open: true
+      open: (this.model.parent_id == undefined) ? true : false
     }
   },
   computed: {
@@ -14,6 +14,11 @@ Vue.component('trois-pages-list-item', {
       return this.model.children &&
         this.model.children.length
     }
+  },
+  mounted: function () {
+    console.log(this);
+    console.log(this.model.parent_id);
+    console.log(this.open);
   },
   methods: {
     deleteItem: function(){

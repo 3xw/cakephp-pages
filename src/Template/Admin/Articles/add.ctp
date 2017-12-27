@@ -1,6 +1,11 @@
 <?php
 use Cake\Core\Configure;
 $i18n = Configure::read('I18n.languages');
+// css
+$this->Html->css([
+  'Attachment.attachment.css',
+  'Trois/Pages.admin/admin.min.css',
+],['block' => 'css']);
 ?>
 <nav class="navbar navbar-expand-lg">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
