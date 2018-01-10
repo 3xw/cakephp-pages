@@ -61,6 +61,9 @@ class ArticleTypesTable extends Table
       'joinTable' => 'section_types_article_types',
       'className' => 'Trois/Pages.SectionTypes'
     ]);
+
+    $this->addBehavior('Trois/Pages.Sluggable', ['field' => 'name','translate' => false]);
+
   }
 
   /**
