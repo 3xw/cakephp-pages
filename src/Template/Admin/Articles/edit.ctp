@@ -67,7 +67,7 @@ $this->Html->css([
                       Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
                       Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
                   ],
-                  'attachments' => $article->attachments // array of exisiting Attachment entities ( HABTM ) or entity ( belongsTo )
+                  'content' => $article
                 ]
               ]
             ]]) ?>
