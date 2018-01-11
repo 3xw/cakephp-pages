@@ -164,6 +164,7 @@ class PagesController extends AppController
   public function edit($id = null)
   {
     $page = $this->Pages->get($id, [
+      'finder' => 'translations',
       'contain' => ['Attachments']
     ]);
     if ($this->request->is(['patch', 'post', 'put'])) {

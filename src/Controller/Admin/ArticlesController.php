@@ -48,7 +48,7 @@ class ArticlesController extends AppController
 
   public function edit($id = null)
   {
-    $article = $this->Articles->find()
+    $article = $this->Articles->find('translations')
     ->contain(['Sections','Attachments'])
     ->where(['Articles.id' => $id])
     ->first();
