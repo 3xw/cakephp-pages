@@ -84,7 +84,7 @@ $this->Html->css([
         <div class="col-md-6">
           <?= $this->Attachment->input('Attachments', // if Attachments => HABTM else if !Attachments => belongsTo
           ['label' => __('Images'),
-          'types' =>['image/jpeg','image/png'],
+          'types' =>['image/jpeg','image/png', 'application/pdf', 'video/mp4'],
           'atags' => [],
             'restrictions' => [
               Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
