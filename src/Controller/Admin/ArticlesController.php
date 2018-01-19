@@ -2,6 +2,7 @@
 namespace Trois\Pages\Controller\Admin;
 
 use Trois\Pages\Controller\AppController;
+use Cake\Core\Configure;
 
 /**
 * Articles Controller
@@ -48,8 +49,12 @@ class ArticlesController extends AppController
 
   public function edit($id = null)
   {
-    $article = $this->Articles->find('translations')
-    ->contain(['Sections','Attachments'])
+    $i18n = Configure::read('I18n.languages');
+    $translate = (empty($i18n))? false : true;
+
+    $query = ($translate)? $this->Articles->find('translations') :  $this->Articles->find();
+
+    $article = $query->contain(['Sections','Attachments'])
     ->where(['Articles.id' => $id])
     ->first();
 
