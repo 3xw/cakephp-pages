@@ -2,6 +2,7 @@
 namespace Trois\Pages\Controller\Admin;
 
 use Trois\Pages\Controller\AppController;
+use Cake\Core\Configure;
 
 /**
 * Pages Controller
@@ -163,10 +164,13 @@ class PagesController extends AppController
   */
   public function edit($id = null)
   {
-    $page = $this->Pages->get($id, [
-      'finder' => 'translations',
-      'contain' => ['Attachments']
-    ]);
+
+    $conditions = ['contain' => ['Attachments']];
+    $i18n = Configure::read('I18n.languages');
+    if(!empty($i18n)){
+      $conditions['finder'] = 'translations';
+    }
+    $page = $this->Pages->get($id, $conditions);
     if ($this->request->is(['patch', 'post', 'put'])) {
       $page = $this->Pages->patchEntity($page, $this->request->getData());
       if ($this->Pages->save($page)) {
