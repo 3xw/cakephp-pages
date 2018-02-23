@@ -76,10 +76,10 @@ class ArticlesTable extends Table
     // custom
     $i18n = Configure::read('I18n.languages');
     $translate = (empty($i18n))? false: true;
-    $this->addBehavior('Trois/Pages.Sluggable', ['field' => 'title','translate' => $translate]);
+    $this->addBehavior('Trois/Utils.Sluggable', ['field' => 'title','translate' => $translate]);
     if($translate)
     {
-      $this->addBehavior('Translate', ['fields' => ['title','slug','meta','header','body']]);
+      $this->addBehavior('Trois/Utils.Translate', ['fields' => ['title','slug','meta','header','body']]);
     }
   }
 

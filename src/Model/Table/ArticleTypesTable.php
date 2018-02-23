@@ -62,7 +62,7 @@ class ArticleTypesTable extends Table
       'className' => 'Trois/Pages.SectionTypes'
     ]);
 
-    $this->addBehavior('Trois/Pages.Sluggable', ['field' => 'name','translate' => false]);
+    $this->addBehavior('Trois/Utils.Sluggable', ['field' => 'name','translate' => false]);
 
   }
 
