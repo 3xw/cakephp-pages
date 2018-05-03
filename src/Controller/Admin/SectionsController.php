@@ -43,10 +43,12 @@ class SectionsController extends AppController
 
   }
 
-  public function view() {
+  public function view($id = null, $key = 0)
+  {
+    $this->set('key', $key);
     $this->Crud->on('beforeFind', function (\Cake\Event\Event $event)
     {
-      $event->getSubject()->query->contain(['sectionTypes']);
+      $event->getSubject()->query->contain(['SectionTypes','Articles' => ['ArticleTypes','Attachments' => ['sort' => ['AttachmentsArticles.order' => 'ASC']]]]);
     });
 
     return $this->Crud->execute();
