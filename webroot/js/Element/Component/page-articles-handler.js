@@ -1,5 +1,5 @@
-Vue.component('page-sections-handler', {
-  template: '#page-sections-handler',
+Vue.component('page-articles-handler', {
+  template: '#page-articles-handler',
   data: function(){
     return {
       baseUrl: this.$root.$el.dataset.webroot
@@ -7,12 +7,12 @@ Vue.component('page-sections-handler', {
   },
   props: {},
   created: function(){
-    this.$hubOn('page','section-add', this.add);
+    this.$hubOn('page','article-add', this.add);
   },
   mounted: function(){},
   methods: {
     add: function(){
-      alert('section add');
+      alert('article add');
     }
   }
 });
