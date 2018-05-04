@@ -1,13 +1,21 @@
+<?
+use Cake\Core\Configure;
+?>
 <div ref="page-<?= $page->id ?>">
 
   <? if($this->request->session()->read('Auth.User.id')): ?>
 
     <? // load stuff
+    $this->append('template', $this->element('Trois/Pages.Component/page-input'));
     $this->append('template', $this->element('Trois/Pages.Component/page-section'));
     $this->append('template', $this->element('Trois/Pages.Component/page-sections-handler'));
     $this->append('template', $this->element('Trois/Pages.Component/page-articles-handler'));
+    $this->Html->css([
+      'Trois/Pages.front/front.min.css',
+    ],['block' => 'css']);
     $this->Html->script([
       'Trois/Pages.Element/Component/utils.js',
+      'Trois/Pages.Element/Component/page-input.js',
       'Trois/Pages.Element/Component/page-section.js',
       'Trois/Pages.Element/Component/page-sections-handler.js',
       'Trois/Pages.Element/Component/page-articles-handler.js',
@@ -23,7 +31,8 @@
     <page-sections-handler></page-sections-handler>
 
     <!-- section handler HTML -->
-    <page-articles-handler></page-articles-handler>
+    <page-articles-handler :languages="<?= htmlspecialchars(json_encode(Configure::read('I18n.languages')), ENT_QUOTES, 'UTF-8') ?>" :default-locale="'<?= Configure::read('App.defaultLocale') ?>'"></page-articles-handler>
+
 
   <? else: ?>
 

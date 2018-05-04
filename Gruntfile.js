@@ -4,7 +4,8 @@ module.exports = function(grunt) {
 		sass: {
 			dist: {
 				files: {
-					'webroot/css/admin/admin.min.css' : 'webroot/css/admin/sass/theme.scss'
+					'webroot/css/admin/admin.min.css' : 'webroot/css/admin/sass/theme.scss',
+					'webroot/css/front/front.min.css' : 'webroot/css/front/sass/theme.scss'
 				}
 			}
 		},
@@ -18,37 +19,13 @@ module.exports = function(grunt) {
 				]
 			},
 			dist: {
-				src: 'webroot/css/admin/admin.min.css'
+				src: [
+					'webroot/css/admin/admin.min.css',
+					'webroot/css/front/front.min.css'
+				]
 			}
 		},
-		// JS
-		uglify: {
-			dev: {
-				options: {
-					beautify: false,
-					mangle: true
-				},
-				files: {
-					'webroot/js/front/app.min.js': [
-						'webroot/js/front/app/app.js'
-					],
-					'webroot/js/admin/app.min.js': [
-						'webroot/js/admin/app/app.js'
-					]
-				}
-			},
-		},
 		watch: {
-			scripts: {
-				files: [
-					'webroot/js/front/app/*.js',
-					'webroot/js/admin/app/*.js'
-				],
-				tasks: ['uglify:dev'],
-				options: {
-					nospawn: true
-				}
-			},
 			css: {
 				files: '**/*.scss',
 				tasks: ['sass', 'postcss']
@@ -56,14 +33,11 @@ module.exports = function(grunt) {
 		}
 	});
 
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-sass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-postcss');
 
 	grunt.registerTask('default',['watch']);
-	grunt.registerTask('vendor', ['cssmin:vendor', 'uglify:vendor']);
-	grunt.registerTask('all', ['cssmin:vendor', 'uglify:vendor','uglify:dev','sass','postcss']);
+	grunt.registerTask('all', ['sass','postcss']);
 
 }
