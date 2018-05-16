@@ -11,4 +11,4 @@ The recommended way to install composer packages is:
 
 Load it in your config/boostrap.php
 
-	Plugin::load('Trois/Pages');
+	Plugin::load('Trois/Pages', ['bootstrap' => true, 'routes' => true]);
