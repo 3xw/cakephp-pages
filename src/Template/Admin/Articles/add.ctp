@@ -40,17 +40,40 @@ $this->Html->css([
             <?= $this->Form->input('meta', ['class' => 'form-control']) ?>
           </div>
           <div class="col-md-6">
-            <?= $this->Form->input('header', ['class' => 'form-control']) ?>
+            <?= $this->element('Trois/Tinymce.tinymce',[
+                'field' => 'header',
+                'value' => '',
+                'init' => []
+              ]);
+            ?>
           </div>
           <div class="col-md-12">
-            <?= $this->Attachment->trumbowyg('body',[
-               'types' =>['image/jpeg','image/png','image/gif'],
-               'atags' => [],
-               'restrictions' => [
-                  Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
-                  Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
-               ],
-               'content' => '',
+            <?= $this->element('Trois/Tinymce.tinymce',[
+              'field' => 'body',
+              'value' => '',
+              'init' => [
+                'external_plugins' => [
+                  'attachment' => $this->Url->build('/attachment/js/Plugins/tinymce/plugin.min.js', true),
+                ],
+                'attachment_settings' => $this->Attachment->jsSetup('content',[
+                  'types' => [
+                    'application/pdf',
+                    'application/msword',
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                    'application/vnd.ms-excel',
+                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    'image/jpeg',
+                    'image/png',
+                    'embed/youtube',
+                    'embed/vimeo'
+                  ],
+                  'atags' => [],
+                  'restrictions' => [
+                    Attachment\View\Helper\AttachmentHelper::TAG_OR_RESTRICTED,
+                    Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
+                  ],
+                ])
+              ]
             ]); ?>
           </div>
         <?php else: ?>
@@ -58,16 +81,38 @@ $this->Html->css([
             <?= $this->element('locale',['fields' => [
               'title',
               'meta',
-              'header',
+              'header' => [
+                'Trois/Tinymce.tinymce' => [
+                  'value' => '',
+                  'init' => []
+                ]
+              ],
               'body' => [
-                'Attachment.trumbowyg' => [
-                  'types' =>['image/jpeg','image/png'],
-                  'atags' => [],
-                    'restrictions' => [
-                      Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
-                      Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
-                  ],
-                  'content' => ''
+                'Trois/Tinymce.tinymce' => [
+                  'value' => '',
+                  'init' => [
+                    'external_plugins' => [
+                      'attachment' => $this->Url->build('/attachment/js/Plugins/tinymce/plugin.min.js', true),
+                    ],
+                    'attachment_settings' => [
+                      'types' => [
+                        'application/pdf',
+                        'application/msword',
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                        'application/vnd.ms-excel',
+                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                        'image/jpeg',
+                        'image/png',
+                        'embed/youtube',
+                        'embed/vimeo'
+                      ],
+                      'atags' => [],
+                      'restrictions' => [
+                        Attachment\View\Helper\AttachmentHelper::TAG_OR_RESTRICTED,
+                        Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
+                      ]
+                    ]
+                  ]
                 ]
               ]
             ]]) ?>

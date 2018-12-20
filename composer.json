@@ -5,6 +5,7 @@
   "require": {
     "php": ">=5.5.9",
     "cakephp/cakephp": "^3.5",
+    "3xw/cakephp-tinymce": "^3.5",
     "3xw/attachment": "^3.5"
   },
   "require-dev": {

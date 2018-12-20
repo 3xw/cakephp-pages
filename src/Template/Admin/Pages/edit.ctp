@@ -34,11 +34,21 @@ $this->Html->css([
           <?php
           if($i18n)
           {
-            echo $this->element('locale',['fields' => ['title','meta','header']]);
+            echo $this->element('locale',['fields' => ['title','meta','header' => [
+              'Trois/Tinymce.tinymce' => [
+                'value' => $page,
+                'init' => []
+              ]
+            ]
+            ]]);
           }else{
             echo $this->Form->input('title', ['class' => 'form-control']);
             echo $this->Form->input('meta', ['type' => 'textarea','class' => 'form-control no-trumbowyg']);
-            echo $this->Form->input('header', ['class' => 'form-control']);
+            echo $this->element('Trois/Tinymce.tinymce',[
+              'field' => 'header',
+              'value' => $page->header,
+              'init' => []
+            ]);
           }
 
           if(count(Configure::read('Trois/Pages.pageTypes')) > 1)
