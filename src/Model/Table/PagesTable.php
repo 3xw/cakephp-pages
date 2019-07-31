@@ -43,9 +43,8 @@ class PagesTable extends Table
     $this->setDisplayField('title');
     $this->setPrimaryKey('id');
 
-    $this->addBehavior('Tree', [
-      'level' => 'level',
-    ]);
+    $this->addBehavior('Tree');
+    
     $this->addBehavior('Search.Search');
     $this->searchManager()
     ->add('q', 'Search.Like', [
