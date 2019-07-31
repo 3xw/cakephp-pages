@@ -186,6 +186,25 @@ class PagesController extends AppController
     $this->set('_serialize', ['page']);
   }
 
+  public function order($id = null)
+  {
+    $page = $this->Pages->get($id);
+    if ($this->request->is(['patch', 'post', 'put']))
+    {
+      $from = (int) $this->request->getData()['from'];
+      $to = (int) $this->request->getData()['to'];
+      $diff = $from - $to;
+      $method = ($diff < 0)? 'moveDown': 'moveUp';
+      for($i = 0; $i < abs($diff); $i++)
+      {
+        debug($method);
+        $this->Pages->{$method}($page);
+      }
+    }
+    $this->set(compact('page'));
+    $this->set('_serialize', ['page']);
+  }
+
   /**
   * Delete method
   *

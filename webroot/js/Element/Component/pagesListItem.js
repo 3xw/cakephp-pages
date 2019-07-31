@@ -52,16 +52,9 @@ Vue.component('trois-pages-list-item', {
       this.model.children.splice((to < from)? to: to - 1, 0,  item[0]);
 
       // save
-      this.$http.post(this.url+'pages/'+item[0].id+'.json',
-      {
-        from:from,
-        to:to
-      },{
-        headers:{
-          "Accept":"application/json",
-          "Content-Type":"application/json"
-        }
-      })
+      this.$http.post(this.url+'admin/pages/pages/order/'+item[0].id+'.json',
+      {from:from,to:to},
+      {headers:{"Accept":"application/json","Content-Type":"application/json"}})
       .then(this.editSuccessCallback, this.errorCallback);
     }
   }
