@@ -54,7 +54,7 @@ $this->Html->css([
                 'external_plugins' => [
                   'attachment' => $this->Url->build('/attachment/js/Plugins/tinymce/plugin.min.js', true),
                 ],
-                'attachment_settings' => $this->Attachment->jsSetup('content',[
+                'attachment_settings' => $this->Attachment->jsSetup('body',[
                   'types' => [
                     'application/pdf',
                     'application/msword',
