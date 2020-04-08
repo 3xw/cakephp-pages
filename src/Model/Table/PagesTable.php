@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Trois\Pages\Model\Table;
 
 use Cake\ORM\Query;
@@ -27,7 +29,7 @@ use Cake\Core\Configure;
 */
 class PagesTable extends Table
 {
-  use \Trois\Pages\Model\Traits\CustomTranslateTrait;
+  //use \Trois\Pages\Model\Traits\CustomTranslateTrait;
 
   /**
   * Initialize method
@@ -35,7 +37,7 @@ class PagesTable extends Table
   * @param array $config The configuration for the Table.
   * @return void
   */
-  public function initialize(array $config)
+  public function initialize(array $config): void
   {
     parent::initialize($config);
 
@@ -44,7 +46,7 @@ class PagesTable extends Table
     $this->setPrimaryKey('id');
 
     $this->addBehavior('Tree');
-    
+
     $this->addBehavior('Search.Search');
     $this->searchManager()
     ->add('q', 'Search.Like', [
@@ -96,7 +98,7 @@ class PagesTable extends Table
   * @param \Cake\Validation\Validator $validator Validator instance.
   * @return \Cake\Validation\Validator
   */
-  public function validationDefault(Validator $validator)
+  public function validationDefault(Validator $validator): Validator
   {
     $validator
     ->integer('id')
@@ -135,7 +137,7 @@ class PagesTable extends Table
   * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
   * @return \Cake\ORM\RulesChecker
   */
-  public function buildRules(RulesChecker $rules)
+  public function buildRules(RulesChecker $rules): RulesChecker
   {
     $rules->add($rules->existsIn(['parent_id'], 'ParentPages'));
 

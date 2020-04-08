@@ -28,11 +28,7 @@ class Section extends Entity
      * @var array
      */
     protected $_accessible = [
-        'section_type_id' => true,
-        'page_id' => true,
-        'order' => true,
-        'section_type' => true,
-        'page' => true,
-        'articles' => true
+      '*' => true,
+      'id' => false,
     ];
 }

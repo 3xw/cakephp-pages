@@ -25,8 +25,7 @@ class SectionType extends Entity
      * @var array
      */
     protected $_accessible = [
-        'name' => true,
-        'sections' => true,
-        'article_types' => true
+        '*' => true,
+        'id' => false
     ];
 }

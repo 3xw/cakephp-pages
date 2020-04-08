@@ -1,5 +1,4 @@
 <?php
-
 return [
   'Trois/Pages' => [
     'pageTypes' => [

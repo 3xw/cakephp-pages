@@ -13,7 +13,8 @@ class SectionsController extends AppController
 
   use \Crud\Controller\ControllerTrait;
 
-  public function initialize(){
+  public function initialize() : void
+  {
     parent::initialize();
 
     $this->loadComponent('Crud.Crud', [

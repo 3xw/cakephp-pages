@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace Trois\Pages\Controller\Admin;
 
 use Trois\Pages\Controller\AppController;
@@ -13,7 +14,7 @@ use Cake\Core\Configure;
 */
 class PagesController extends AppController
 {
-  public function initialize()
+  public function initialize() : void
   {
     parent::initialize();
     $this->loadComponent('Search.Prg', [
@@ -44,10 +45,11 @@ class PagesController extends AppController
       'sections'=> [],
       'articles' => []
     ];
+    $sections = json_decode($this->request->getData('sections'), true);
 
     if ($this->request->is('post'))
     {
-      foreach($this->request->getData()['sections'] as $row)
+      foreach($sections as $row)
       {
         $section = $this->Pages->Sections->get($row['id']);
         $section = $this->Pages->Sections->patchEntity($section, [
@@ -139,7 +141,7 @@ class PagesController extends AppController
   */
   public function add()
   {
-    $page = $this->Pages->newEntity();
+    $page = $this->Pages->newEmptyEntity();
     if ($this->request->is('post')) {
       $page = $this->Pages->patchEntity($page, $this->request->getData());
       if ($this->Pages->save($page)) {

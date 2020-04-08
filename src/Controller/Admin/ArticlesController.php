@@ -13,7 +13,7 @@ use Cake\Core\Configure;
 */
 class ArticlesController extends AppController
 {
-  public function initialize()
+  public function initialize() : void
   {
     parent::initialize();
     $this->loadComponent('Search.Prg', [
@@ -23,7 +23,7 @@ class ArticlesController extends AppController
 
   public function add($sectionId)
   {
-    $article = $this->Articles->newEntity();
+    $article = $this->Articles->newEmptyEntity();
     $query = $this->Articles->Sections->find();
     $section = $query->select(['page_id','count' => $query->func()->count('Articles.id')])
     ->matching('Articles')

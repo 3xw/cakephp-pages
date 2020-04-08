@@ -12,7 +12,7 @@ use Trois\Pages\Controller\AppController;
  */
 class ArticleTypesController extends AppController
 {
-  public function initialize()
+  public function initialize() : void
   {
     parent::initialize();
     $this->loadComponent('Search.Prg', [
@@ -28,7 +28,7 @@ class ArticleTypesController extends AppController
     public function index()
     {
         $query = $this->ArticleTypes
-        ->find('search',['search' => $this->request->query]);
+        ->find('search',['search' => $this->request->getQuery()]);
         $this->set('articleTypes', $this->paginate($query));
     }
 
@@ -56,7 +56,7 @@ class ArticleTypesController extends AppController
      */
     public function add()
     {
-        $articleType = $this->ArticleTypes->newEntity();
+        $articleType = $this->ArticleTypes->newEmptyEntity();
         if ($this->request->is('post')) {
             $articleType = $this->ArticleTypes->patchEntity($articleType, $this->request->getData());
             if ($this->ArticleTypes->save($articleType)) {
