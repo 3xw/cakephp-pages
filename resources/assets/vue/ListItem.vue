@@ -31,7 +31,7 @@
         <i v-if="model.id" class="material-icons" @click="deleteItem">delete_forever</i>
       </div>
     </div>
-    <ul v-show="open" v-if="isFolder" @end="onDragEnd" >
+    <ul v-show="open" v-if="isFolder" >
       <pages-list-item
         class="trois-pages-list-item"
         v-for="model in model.children"

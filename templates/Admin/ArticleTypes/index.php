@@ -2,31 +2,34 @@
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <?= __('Article Types') ?>
-      </li>
-    </ul>
+  <div class="navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item active">
+      <li class="nav-item">
         <?= $this->Html->link('<i class="material-icons">add</i> '.__('Add'),['action'=>'add'], ['class' => '','escape'=>false]) ?>
       </li>
     </ul>
   </div>
 </nav>
-<div class="utils--spacer-default"></div>
+<div class="utils--spacer-semi"></div>
 <div class="row no-gutters">
   <div class="col-11 mx-auto ">
-    <?= $this->Flash->render() ?>
-    <?= $this->Flash->render('auth') ?>
     <!-- LIST ELEMENT -->
     <div class="card">
-      <!-- START CONTEMT -->
-      <div class="card-body">
+
+      <div class="card-header">
+        <h2 class="card-title">
+          <?= __('Articles Types')?> <small><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></small>
+        </h2>
         <?= $this->Form->create(null, ['novalidate', 'class'=>'', 'role'=>'search']) ?>
         <?= $this->Form->input('q', ['class'=>'form-control', 'placeholder'=>__('Search...'), 'label'=>false]) ?>
         <?= $this->Form->end() ?>
+        <?php if (isset($q)): ?>
+            Search value : <?= $this->Html->link($q.'<i class="material-icons">cancel</i>',['action'=>'index'], ['escape'=>false])?>
+            <div class="utils--spacer-semi"></div>
+        <?php endif; ?>
+      </div>
+      <!-- START CONTEMT -->
+      <div class="card-body">
         <figure class="figure figure--table">
 
         <table id="datatables" class="table table-no-bordered table-hover dataTable dtr-inline" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
@@ -44,7 +47,6 @@
                                             <td data-title="name"><?= h($articleType->name) ?></td>
                                       <td data-title="actions" class="actions" class="text-right">
                   <div class="btn-group">
-                    <?= $this->Html->link('<i class="material-icons">visibility</i>', ['action' => 'view', $articleType->id],['class' => 'btn btn-xs btn-simple btn-info btn-icon edit','escape' => false]) ?>
                     <?= $this->Html->link('<i class="material-icons">mode_edit</i>', ['action' => 'edit', $articleType->id], ['class' => 'btn btn-xs btn-simple btn-warning btn-icon edit','escape' => false]) ?>
                     <?= $this->Form->postLink('<i class="material-icons">delete</i>', ['action' => 'delete', $articleType->id], ['class' => 'btn btn-xs btn-simple btn-danger btn-icon remove','escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $articleType->id)]) ?>
                   </div>
