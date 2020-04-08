@@ -15,7 +15,7 @@
 
           <!-- loading -->
           <div v-if="loading" class="attachment-loading-container">
-            <img v-bind:src="url+'attachment/img/loading.gif'" class="img-responsive" />
+            <img v-bind:src="url+'img/admin/loading.gif'" class="img-responsive" />
           </div>
 
           <!-- sectionTypes selection -->
