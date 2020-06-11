@@ -55,6 +55,7 @@
                       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                       'image/jpeg',
                       'image/png',
+                      'image/gif',
                       'embed/youtube',
                       'embed/vimeo'
                     ],
