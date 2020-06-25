@@ -62,11 +62,13 @@ class PagesTable extends Table
 
     $this->belongsTo('ParentPages', [
       'className' => 'Trois/Pages.Pages',
-      'foreignKey' => 'parent_id'
+      'foreignKey' => 'parent_id',
+      'sort' => ['ParentPages.lft' => 'ASC']
     ]);
     $this->hasMany('ChildPages', [
       'className' => 'Trois/Pages.Pages',
-      'foreignKey' => 'parent_id'
+      'foreignKey' => 'parent_id',
+      'sort' => ['ChildPages.lft' => 'ASC']
     ]);
     $this->hasMany('Sections', [
       'foreignKey' => 'page_id',
