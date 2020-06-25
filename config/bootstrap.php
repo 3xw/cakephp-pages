@@ -1,7 +1,5 @@
 <?php
 use Cake\Core\Configure;
 
+if(Configure::read('Trois/Pages')) return;
 Configure::load('Trois/Pages.pages');
-collection((array)Configure::read('Trois/Pages.config'))->each(function ($file) {
-    Configure::load($file,'default',true);
-});

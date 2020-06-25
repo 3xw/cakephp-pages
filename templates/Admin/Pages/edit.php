@@ -44,7 +44,7 @@ $i18n = Configure::read('I18n.languages');
                 'init' => []
               ]);
             }
-
+            
             if(count(Configure::read('Trois/Pages.pageTypes')) > 1)
             {
               echo $this->Form->control('page_type',['options' => Configure::read('Trois/Pages.pageTypes'), 'class' => 'form-control']);
