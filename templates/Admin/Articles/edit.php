@@ -61,8 +61,8 @@
                     ],
                     'atags' => [],
                     'restrictions' => [
-                      Attachment\View\Helper\AttachmentHelper::TAG_OR_RESTRICTED,
-                      Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
+                      Trois\Attachment\View\Helper\AttachmentHelper::TAG_OR_RESTRICTED,
+                      Trois\Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
                     ],
                   ])
                 ]
@@ -100,8 +100,8 @@
                         ],
                         'atags' => [],
                         'restrictions' => [
-                          Attachment\View\Helper\AttachmentHelper::TAG_OR_RESTRICTED,
-                          Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
+                          Trois\Attachment\View\Helper\AttachmentHelper::TAG_OR_RESTRICTED,
+                          Trois\Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
                         ]
                       ]
                     ]
@@ -122,8 +122,8 @@
             'types' =>['image/jpeg','image/png', 'application/pdf', 'video/mp4'],
             'atags' => [],
               'restrictions' => [
-                Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
-                Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
+                Trois\Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
+                Trois\Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
               ],
               'attachments' => $article->attachments // array of exisiting Attachment entities ( HABTM ) or entity ( belongsTo )
             ]);

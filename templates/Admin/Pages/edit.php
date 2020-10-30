@@ -57,8 +57,8 @@ $i18n = Configure::read('I18n.languages');
             'types' =>['image/jpeg','image/png'],
             'atags' => [],
             'restrictions' => [
-              Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
-              Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
+              Trois\Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
+              Trois\Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
             ],
             'attachments' => $page->attachments // array of exisiting Attachment entities ( HABTM ) or entity ( belongsTo )
           ]);

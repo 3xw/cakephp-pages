@@ -49,7 +49,7 @@ class ArticlesTable extends Table
       'comparison' => 'LIKE',
       'wildcardAny' => '*',
       'wildcardOne' => '?',
-      'field' => ['title']
+      'fields' => ['title']
     ]);
 
 

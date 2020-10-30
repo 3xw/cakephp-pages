@@ -45,7 +45,7 @@ class SectionTypesTable extends Table
       'comparison' => 'LIKE',
       'wildcardAny' => '*',
       'wildcardOne' => '?',
-      'field' => ['name']
+      'fields' => ['name']
     ]);
 
 

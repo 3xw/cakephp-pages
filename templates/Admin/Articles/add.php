@@ -61,8 +61,8 @@ $i18n = Configure::read('I18n.languages');
                     ],
                     'atags' => [],
                     'restrictions' => [
-                      Attachment\View\Helper\AttachmentHelper::TAG_OR_RESTRICTED,
-                      Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
+                      Trois\Attachment\View\Helper\AttachmentHelper::TAG_OR_RESTRICTED,
+                      Trois\Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
                     ],
                   ])
                 ]
@@ -100,8 +100,8 @@ $i18n = Configure::read('I18n.languages');
                         ],
                         'atags' => [],
                         'restrictions' => [
-                          Attachment\View\Helper\AttachmentHelper::TAG_OR_RESTRICTED,
-                          Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
+                          Trois\Attachment\View\Helper\AttachmentHelper::TAG_OR_RESTRICTED,
+                          Trois\Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
                         ]
                       ]
                     ]
@@ -124,8 +124,8 @@ $i18n = Configure::read('I18n.languages');
             'types' =>['image/jpeg','image/png', 'application/pdf', 'video/mp4'],
             'atags' => [],
               'restrictions' => [
-                Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
-                Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
+                Trois\Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
+                Trois\Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
               ],
               'attachments' => [] // array of exisiting Attachment entities ( HABTM ) or entity ( belongsTo )
             ]);

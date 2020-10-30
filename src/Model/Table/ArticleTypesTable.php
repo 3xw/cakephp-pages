@@ -45,7 +45,7 @@ class ArticleTypesTable extends Table
       'comparison' => 'LIKE',
       'wildcardAny' => '*',
       'wildcardOne' => '?',
-      'field' => ['name']
+      'fields' => ['name']
     ]);
 
 
