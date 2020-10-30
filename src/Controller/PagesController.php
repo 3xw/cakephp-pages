@@ -10,7 +10,7 @@ use Cake\I18n\I18n;
 
 class PagesController extends AppController
 {
-  public function initialize()
+  public function initialize():void
   {
     parent::initialize();
     $this->Pages = $this->loadModel('Trois/Pages.Pages');
