@@ -1,6 +1,3 @@
-// CSS
-require('@/assets/scss/theme.scss')
-
 //JS
 require('@/utils/window-events-hub-hooks.js')
 
