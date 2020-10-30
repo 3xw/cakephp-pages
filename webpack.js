@@ -1,188 +1,74 @@
-const webpack = require('webpack');
-const path = require('path');
-const conf = require('dotenv').config({path: 'webpack.env'});
-const webroot = conf.parsed.PUBLIC_PATH;
-const prefix = process.env;
+const
+webpack = require('webpack'),
+path = require('path'),
+conf = require('dotenv').config({path: './webpack.env'}),
+webroot = conf.parsed.PUBLIC_PATH,
+prefix = process.env
 
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+// WebpackPlugins
+const
+MiniCssExtractPlugin = require("mini-css-extract-plugin"),
+TerserPlugin = require('terser-webpack-plugin'),
+VueLoaderPlugin = require('vue-loader/lib/plugin'),
+{ CleanWebpackPlugin } = require('clean-webpack-plugin')
 
-const pagesVendorConfig = env => {
+// settings
+const
+rules = require('./webpack.rules.js'),
+optimization =
+{
+  minimize: false,
+  //minimizer: [new TerserPlugin()]
+},
+plugins = (prefix) => {
+  return [
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: [
+        path.join(__dirname,'../../../webroot','js/'+prefix+'/components/*'),
+        path.join(__dirname,'../../../webroot','css/'+prefix+'/components/*')
+      ],
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'css/'+prefix+'/[name].min.css',
+      chunkFilename: 'css/'+prefix+'/components/[name].min.css',
+    }),
+    new VueLoaderPlugin()
+  ]
+}
+
+// configs
+const
+prefixes = ['pages'],
+configs = prefixes.map(prefix => {
   return {
-    mode: 'development',
-    name: 'pagesVendorConfig',
-    entry: path.join(__dirname, 'resources/assets/pages.vendor.conf.js'),
-    output: {
-      path: path.resolve(__dirname, '../../../webroot'),
-      filename: 'js/plugins/pages/pages.vendor.min.js',
-    },
-    optimization: {
-      minimizer: [new UglifyJsPlugin({
-        extractComments: false,
-        parallel: true,
-        uglifyOptions: {
-          keep_fnames: true,
-          mangle: true,
-        }
-      })],
-    },
-    module: {
-      rules: [
-        {
-          test: /\.js$/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env'],
-              plugins: [
-                "@babel/plugin-syntax-dynamic-import"
-              ]
-            }
-          }
-        },
-        {
-          test: /\.(css)$/,
-          use: [
-            {
-              loader: MiniCssExtractPlugin.loader,
-            },
-            'css-loader',
-            {
-              loader: 'postcss-loader',
-              options: {
-                ident: 'postcss',
-                plugins: loader => [
-                  require('cssnano')({
-                    preset: ['default', {
-                      discardComments: {
-                        removeAll: true,
-                      }
-                    }]
-                  })
-                ]
-              }
-            }
-          ]
-        }
-      ]
-    },
-    plugins: [
-      new MiniCssExtractPlugin({
-        filename: 'css/plugins/pages/pages.vendor.min.css',
-      }),
-      new webpack.IgnorePlugin({
-        resourceRegExp: /^\.\/locale$/,
-        contextRegExp: /moment$/
-      }),
-      new webpack.IgnorePlugin({
-        resourceRegExp: /got$/,
-        contextRegExp: /vuejs$/
-      }),
+    mode: 'production',
+    name: 'app-'+prefix,
+    entry: [
+      path.resolve(__dirname, 'resources/assets/main.js'),
+      path.resolve(__dirname, 'resources/assets/assets/scss/theme.scss')
     ],
-    resolve: {
-      alias: {
-          'vue$': 'vue/dist/vue.esm.js'
-      },
-      extensions: ['*', '.js', '.vue', '.json']
-    },
-  }
-};
-
-const pagesConfig = env => {
-  return {
-    mode: 'development',
-    name: 'pagesConfig',
-    entry: path.join(__dirname, 'resources/assets/pages.conf.js'),
+    devtool: 'inline-source-map',
     output: {
       path: path.resolve(__dirname, '../../../webroot'),
       publicPath: webroot,
-      filename: 'js/plugins/pages/pages.min.js',
-      chunkFilename: 'js/plugins/pages/components/pages.[name].[hash].min.js',
+      filename: 'js/'+prefix+'/[name].min.js',
+      chunkFilename: 'js/'+prefix+'/components/[fullhash].[name].min.js',
     },
-    watch: true,
-    optimization: {
-      minimizer: [new UglifyJsPlugin()],
-    },
+    optimization,
     module: {
-      rules: [
-        {
-        test: /\.js$/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-            plugins: [
-              "@babel/plugin-syntax-dynamic-import"
-            ]
-          }
-        }
-      },
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-          cacheBusting: true,
-        }
-      },
-      {
-        test: /\.(scss)$/,
-        use: [
-          { loader: MiniCssExtractPlugin.loader, },
-          'css-loader',
-          {
-            loader: 'postcss-loader',
-            options: {
-              ident: 'postcss',
-              plugins: loader => [
-                require('postcss-preset-env')(),
-                require('pixrem')(),
-                require('autoprefixer')({overrideBrowserslist: 'last 10 versions'}),
-                require('cssnano')()
-              ]
-            }
-          },
-          { loader: 'resolve-url-loader' },
-          { loader: 'sass-loader' },
-        ]
-      },
-      {
-        test: /\.css$/,
-        use: [
-          'vue-style-loader',
-          'css-loader',
-          'sass-loader'
-        ]
-      },
-      {
-          test: /\.(woff(2)?|ttf|otf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-          use: [{
-              loader: 'file-loader',
-              options: {
-                  name: '[name].[ext]',
-                  publicPath: webroot+'fonts/',
-                  outputPath: 'fonts/'
-              }
-          }]
-      }]
+      rules: [rules.babel, rules.vue, rules.scss, rules.css, rules.fonts]
     },
-    plugins: [
-      new MiniCssExtractPlugin({
-        filename: 'css/plugins/pages/pages.min.css',
-        chunkFilename: 'css/plugins/pages/components/pages.[name].[hash].min.css',
-      }),
-      new VueLoaderPlugin(),
-      new webpack.DefinePlugin({
-        '__WEBROOT__': JSON.stringify(conf.parsed.PUBLIC_PATH),
-      })
-    ],
+    plugins: plugins(prefix),
     resolve: {
       alias: {
-          'vue$': 'vue/dist/vue.esm.js'
+        '@host-assets': path.resolve(__dirname, '../../../resources/assets'),
+        '@': path.resolve(__dirname, 'resources/assets'),
+        'vue$': 'vue/dist/vue.esm.js'
       },
       extensions: ['*', '.js', '.vue', '.json']
     },
   }
-}
+})
 
-module.exports = [pagesVendorConfig, pagesConfig];
+//console.log(configs)
+module.exports = configs
