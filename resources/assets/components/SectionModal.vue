@@ -80,8 +80,12 @@
     </div>
   </div>
 </template>
+
 <script>
-export default {
+import { client } from '@/http/client.js'
+
+export default
+{
   name: 'pages-section-modal',
   data: function(){
     return {
@@ -127,10 +131,7 @@ export default {
       this.name = '';
       this.loading = true;
       var params = {page: this.pagination.current_page};
-      this.$http.get(this.url+'admin/pages/SectionTypes.json', {
-        params: params,
-        headers:{"Accept":"application/json","Content-Type":"application/json"}
-      })
+      client.get(this.url+'admin/pages/SectionTypes.json', { params: params })
       .then(this.getSectionTypesSuccessCallback, this.errorCallback);
     },
     addSection: function(id){
@@ -138,26 +139,22 @@ export default {
       let data = new FormData()
       data.append('page_id', this.page.id)
       data.append('section_type_id', id)
-      this.$http.post(this.url+'admin/pages/Sections/add.json', data, {
-        headers:{"Accept":"application/json","Content-Type":"application/json"}
-      })
+      data.append('_csrfToken', window.csrfToken)
+      client.post(this.url+'admin/pages/Sections/add.json', data)
       .then(this.createSectionTypeSuccessCallback, this.errorCallback);
     },
     createSectionType: function(){
       this.loading = true;
       let data = new FormData()
       data.append('name', this.name)
-      this.$http.post(this.url+'admin/pages/SectionTypes/add.json', data, {
-        headers:{"Accept":"application/json","Content-Type":"application/json"}
-      })
+      data.append('_csrfToken', window.csrfToken)
+      client.post(this.url+'admin/pages/SectionTypes/add.json', data)
       .then(this.getSectionTypes, this.errorCallback);
     },
     createSectionTypeSuccessCallback: function(response){
       this.loading = true;
       console.log(response);
-      this.$http.get(this.url+'admin/pages/Sections/view/'+response.data.data.id+'.json',{
-        headers:{"Accept":"application/json","Content-Type":"application/json"}
-      })
+      client.get(this.url+'admin/pages/Sections/view/'+response.data.data.id+'.json')
       .then(this.getSectionSuccessCallback, this.errorCallback);
     },
     getSectionSuccessCallback: function(response){

@@ -73,7 +73,10 @@
   </div>
 </template>
 <script>
-export default {
+import { client } from '@/http/client.js'
+
+export default
+{
   name: 'page-articles-handler',
   props: {
     languages: Array,
@@ -100,7 +103,7 @@ export default {
   methods: {
     edit: function(id){
       this.article.id = id;
-      this.$http.get(this.baseUrl+'admin/pages/articles/edit/'+this.article.id, this.options)
+      client.get(this.baseUrl+'admin/pages/articles/edit/'+this.article.id, this.options)
       .then(this.loadArticleSuccess, this.error);
     },
     add: function(){

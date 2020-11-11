@@ -62,7 +62,10 @@
 </template>
 <script>
 import SectionModal from './SectionModal.vue'
-export default {
+import { client } from '@/http/client.js'
+
+export default
+{
   name: 'pages-page',
   components: {
     'pages-section-modal': SectionModal
@@ -148,9 +151,8 @@ export default {
     saveNewOrder: function(){
       let data = new FormData()
       data.append('sections', JSON.stringify(this.page.sections));
-      this.$http.post(this.url+'admin/pages/Pages/orderPageContent.json', data, {
-        headers:{"Accept":"application/json","Content-Type":"application/json"}
-      })
+      data.append('_csrfToken', window.csrfToken)
+      client.post(this.url+'admin/pages/Pages/orderPageContent.json', data)
       .then(this.saveNewOrderSuccess, this.errorCallback);
     },
     saveNewOrderSuccess: function(response){

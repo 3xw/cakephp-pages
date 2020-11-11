@@ -2,7 +2,10 @@
   <div id="page-section" v-html="content"></div>
 </template>
 <script>
-export default {
+import { client } from '@/http/client.js'
+
+export default
+{
   name: 'page-section',
   props: {
     id: Number,
@@ -25,7 +28,7 @@ export default {
       if(this.id == id) this.loadSection();
     },
     loadSection: function(){
-      return this.$http.get(this.baseUrl+'admin/pages/sections/view/'+this.id+'/'+this.i)
+      return client.get(this.baseUrl+'admin/pages/sections/view/'+this.id+'/'+this.i)
       .then(this.loadSectionSuccess, this.error);
     },
     loadSectionSuccess: function(request){

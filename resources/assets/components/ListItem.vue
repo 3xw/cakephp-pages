@@ -42,8 +42,12 @@
     </ul>
   </li>
 </template>
+
 <script>
-export default {
+import { client } from '@/http/client.js'
+
+export default
+{
   name: 'pages-list-item',
   props: {
     model: Object,
@@ -97,8 +101,8 @@ export default {
       this.model.children.splice((to < from)? to: to - 1, 0,  item[0]);
 
       // save
-      this.$http.post(this.url+'admin/pages/pages/order/'+item[0].id+'.json',
-      {from:from,to:to},
+      client.post(this.url+'admin/pages/pages/order/'+item[0].id+'.json',
+      {from:from,to:to,_csrfToken:window.csrfToken},
       {headers:{"Accept":"application/json","Content-Type":"application/json"}})
       .then(this.editSuccessCallback, this.errorCallback);
     }*/
