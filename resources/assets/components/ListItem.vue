@@ -102,7 +102,7 @@ export default
 
       // save
       client.post(this.url+'admin/pages/pages/order/'+item[0].id+'.json',
-      {from:from,to:to,_csrfToken:window.csrfToken},
+      {from:from,to:to,_csrfToken:window.getCsrfToken()},
       {headers:{"Accept":"application/json","Content-Type":"application/json"}})
       .then(this.editSuccessCallback, this.errorCallback);
     }*/

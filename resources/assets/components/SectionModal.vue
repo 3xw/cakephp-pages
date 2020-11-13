@@ -139,7 +139,7 @@ export default
       let data = new FormData()
       data.append('page_id', this.page.id)
       data.append('section_type_id', id)
-      data.append('_csrfToken', window.csrfToken)
+      data.append('_csrfToken', window.getCsrfToken())
       client.post(this.url+'admin/pages/Sections/add.json', data)
       .then(this.createSectionTypeSuccessCallback, this.errorCallback);
     },
@@ -147,7 +147,7 @@ export default
       this.loading = true;
       let data = new FormData()
       data.append('name', this.name)
-      data.append('_csrfToken', window.csrfToken)
+      data.append('_csrfToken', window.getCsrfToken())
       client.post(this.url+'admin/pages/SectionTypes/add.json', data)
       .then(this.getSectionTypes, this.errorCallback);
     },

@@ -151,7 +151,7 @@ export default
     saveNewOrder: function(){
       let data = new FormData()
       data.append('sections', JSON.stringify(this.page.sections));
-      data.append('_csrfToken', window.csrfToken)
+      data.append('_csrfToken', window.getCsrfToken())
       client.post(this.url+'admin/pages/Pages/orderPageContent.json', data)
       .then(this.saveNewOrderSuccess, this.errorCallback);
     },
