@@ -4,8 +4,8 @@
 
       <!-- section modal-->
       <pages-section-modal :url="url" :page="page"></pages-section-modal>
-      <draggable v-model="page.sections" @end="onSectionDragEnd">
-        <section  v-for="(section, sectionIndex) in page.sections" :id="'section-'+sectionIndex" :data-section-index="sectionIndex" :data-id="section.id" class="trois-pages__section card">
+      <draggable v-model="page.sections" @end="onSectionDragEnd" ref="sections">
+        <section  v-for="(section, sectionIndex) in page.sections" :key="section.id" :id="'section-'+sectionIndex" :data-section-index="sectionIndex" :data-id="section.id" class="trois-pages__section card">
           <div class="card-body">
             <h3 class="card-title">{{section.section_type.name}}</h3>
             <h6 class="card-subtitle mb-2 text-muted">section</h6>
@@ -13,8 +13,8 @@
             <!-- articles list -->
 
           <!--  v-sortable="{draggable:'.trois-pages__section__article', onEnd:onArticleDragEnd}" -->
-          <draggable class="row" v-model="section.articles" @end="onArticleDragEnd">
-            <article v-for="(article, index) in section.articles" :id="'article-'+index" :data-index="index" :data-section-index="sectionIndex" class="trois-pages__section__article col-6">
+          <draggable class="row" v-model="section.articles" @end="onArticleDragEnd" ref="articles">
+            <article v-for="(article, index) in section.articles" :key="article.id" :id="'article-'+index" :data-index="index" :data-section-index="sectionIndex" class="trois-pages__section__article col-6">
               <div class="card">
                 <div class="card-body">
 
@@ -88,23 +88,14 @@ export default
 
   },
   methods: {
-    onSectionDragEnd: function(evt){
-      var self = this;
-      $('.trois-pages section')
-      .each(function(index, elem){
-        var sectionIndex = $(elem).data('section-index');
-        self.page.sections[sectionIndex].order = index;
-      });
+    onSectionDragEnd: function(evt)
+    {
+      for(let s in this.page.sections) this.page.sections[s].order = s
       this.saveNewOrder();
     },
-    onArticleDragEnd: function(evt){
-      var sectionIndex = $('#'+evt.item.id).data('section-index');
-      var self = this;
-      $('#section-'+sectionIndex+' .trois-pages__section__article')
-      .each(function(index, elem){
-        var articleIndex = $(elem).data('index');
-        self.page.sections[sectionIndex].articles[articleIndex].order = index;
-      });
+    onArticleDragEnd: function(evt)
+    {
+      for(let s in this.page.sections) for(let a in this.page.sections[s].articles) this.page.sections[s].articles[a].order = a
       this.saveNewOrder();
     },
     goToLocation: function(location){
