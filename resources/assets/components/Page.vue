@@ -62,7 +62,7 @@
 </template>
 <script>
 import SectionModal from './SectionModal.vue'
-import { client } from '@/http/client.js'
+import { client } from '../http/client.js'
 
 export default
 {

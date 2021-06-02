@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { client } from '@/http/client.js'
+import { client } from '../http/client.js'
 
 export default
 {
