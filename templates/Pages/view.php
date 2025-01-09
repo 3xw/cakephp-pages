@@ -1,12 +1,12 @@
-<?
+<?php
 use Cake\Core\Configure;
 ?>
 <div ref="page-<?= $page->id ?>">
 
-  <? if($this->request->session()->read('Auth.User.id')): ?>
+  <?php if($this->request->session()->read('Auth.User.id')): ?>
 
     <!-- FRONT EDIT FUTUR -->
-    <? /*
+    <?php /*
     $this->append('template', $this->element('Trois/Pages.Component/page-input'));
     $this->append('template', $this->element('Trois/Pages.Component/page-section'));
     $this->append('template', $this->element('Trois/Pages.Component/page-sections-handler'));
@@ -25,9 +25,9 @@ use Cake\Core\Configure;
     ?>
 
     <!-- vuejs sections -->
-    <? foreach($page->sections as $key => $section): ?>
+    <?php foreach($page->sections as $key => $section): ?>
       <!--<page-section :ref="'section-'+<?= $section->id ?>" :id="<?= $section->id ?>" :i="<?= $key ?>"></page-section>-->
-    <? endforeach ?>
+    <?php endforeach ?>
 
     <!-- section handler HTML -->
     <!-- <page-sections-handler></page-sections-handler>-->
@@ -36,14 +36,14 @@ use Cake\Core\Configure;
     <!-- <page-articles-handler :languages="<?= htmlspecialchars(json_encode(Configure::read('I18n.languages')), ENT_QUOTES, 'UTF-8') ?>" :default-locale="'<?= Configure::read('App.defaultLocale') ?>'"></page-articles-handler>-->
 
 
-  <? else: ?>
+  <?php else: ?>
 
   <!-- hard sections -->
-  <? foreach($page->sections as $key => $section): ?>
-    <? $sectionType = $section->section_type->slug ?>
+  <?php foreach($page->sections as $key => $section): ?>
+    <?php $sectionType = $section->section_type->slug ?>
     <?= $this->element('Sections/section-'.$sectionType, ['section' => $section, 'lng' => $lng, 'key' => $key]) ?>
-  <? endforeach ?>
+  <?php endforeach ?>
 
-  <? endif; ?>
+  <?php endif; ?>
 
 </div>

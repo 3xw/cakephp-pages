@@ -1,4 +1,4 @@
-<?
+<?php
 $this->Html->css([
   'pages/main.min.css?v='.md5_file(APP.'../webroot/css/pages/main.min.css')
 ],['block' => 'css']);
